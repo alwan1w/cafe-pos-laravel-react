@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
+use Illuminate\Support\Facades\Route;
 
 // Route Public (Tidak perlu token)
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -12,5 +13,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
 
-    // Nanti route master data (Admin), POS (Kasir), dll. akan diletakkan di dalam sini
+    // Hanya user dengan role 'admin' yang bisa mengakses rute di bawah ini
+    Route::middleware('role:admin')->group(function () {
+        Route::apiResource('categories', CategoryController::class);
+        Route::apiResource('products', ProductController::class);
+    });
 });
