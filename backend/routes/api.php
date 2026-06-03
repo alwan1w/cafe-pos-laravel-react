@@ -3,9 +3,17 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\Public\MenuController;
+use App\Http\Controllers\Api\Public\ReservationController;
 use App\Http\Controllers\Api\TableController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+
+// ==========================================
+Route::get('/public/categories', [MenuController::class, 'categories']);
+Route::get('/public/products', [MenuController::class, 'products']);
+Route::post('/public/reservations', [ReservationController::class, 'store']);
+Route::get('/public/tables/available', [ReservationController::class, 'checkAvailability']);
 
 // Route Public (Tidak perlu token)
 Route::post('/auth/login', [AuthController::class, 'login']);
