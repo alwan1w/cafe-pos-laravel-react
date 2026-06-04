@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BarController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\KitchenController;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Public\MenuController;
@@ -34,6 +36,18 @@ Route::middleware('auth:sanctum')->group(function () {
         // POS Kasir
         Route::post('pos/vouchers/check', [PosController::class, 'checkVoucher']);
         Route::post('pos/transactions', [PosController::class, 'store']);
+    });
+
+    // -- GRUP KITCHEN (Akses: Admin & Kitchen) --
+    Route::middleware('role:admin|kitchen')->group(function () {
+        Route::get('kitchen/orders', [KitchenController::class, 'index']);
+        Route::patch('kitchen/orders/{item}/status', [KitchenController::class, 'updateStatus']);
+    });
+
+    // -- GRUP BAR (Akses: Admin & Bar) --
+    Route::middleware('role:admin|bar')->group(function () {
+        Route::get('bar/orders', [BarController::class, 'index']);
+        Route::patch('bar/orders/{item}/status', [BarController::class, 'updateStatus']);
     });
 
     // Hanya user dengan role 'admin' yang bisa mengakses rute di bawah ini

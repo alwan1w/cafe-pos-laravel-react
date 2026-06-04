@@ -11,7 +11,7 @@ class TransactionItem extends Model
 
     protected $fillable = [
         'transaction_id', 'product_id', 'product_name', 'product_type',
-        'qty', 'unit_price', 'subtotal', 'notes'
+        'qty', 'unit_price', 'subtotal', 'status', 'notes' // <-- Tambahkan status di sini
     ];
 
     public function transaction()
