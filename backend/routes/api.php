@@ -23,6 +23,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
 
+    // -- GRUP ADMIN & KASIR --
+    Route::middleware('role:admin|kasir')->group(function () {
+        Route::get('reservations', [ReservationController::class, 'index']);
+        Route::get('reservations/{reservation}', [ReservationController::class, 'show']);
+        Route::patch('reservations/{reservation}/status', [ReservationController::class, 'updateStatus']);
+    });
+
     // Hanya user dengan role 'admin' yang bisa mengakses rute di bawah ini
     Route::middleware('role:admin')->group(function () {
         Route::apiResource('categories', CategoryController::class);
