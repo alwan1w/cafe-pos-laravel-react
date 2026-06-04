@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Public\MenuController;
 use App\Http\Controllers\Api\Public\ReservationController as PublicReservationController;
@@ -30,6 +31,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('reservations', [AdminReservationController::class, 'index']);
         Route::get('reservations/{reservation}', [AdminReservationController::class, 'show']);
         Route::patch('reservations/{reservation}/status', [AdminReservationController::class, 'updateStatus']);
+        // POS Kasir
+        Route::post('pos/vouchers/check', [PosController::class, 'checkVoucher']);
+        Route::post('pos/transactions', [PosController::class, 'store']);
     });
 
     // Hanya user dengan role 'admin' yang bisa mengakses rute di bawah ini
