@@ -1,20 +1,30 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'http://backend.test/api', // Ganti sesuai virtual host backend Laragon
-    withCredentials: true, // Wajib untuk Laravel Sanctum CSRF cookies
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
+  // UBAH BARIS INI: Sesuaikan dengan server php artisan serve yang sedang berjalan
+  baseURL: "http://127.0.0.1:8000/api",
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
 });
 
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token'); // Atau ambil dari Zustand
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+// Interceptor untuk menyisipkan Token di setiap request
+api.interceptors.request.use(
+  (config) => {
+    // Mengambil token dari localStorage yang disimpan oleh Zustand
+    const authStorage = localStorage.getItem("auth-storage");
+    if (authStorage) {
+      const { state } = JSON.parse(authStorage);
+      if (state.token) {
+        config.headers.Authorization = `Bearer ${state.token}`;
+      }
     }
     return config;
-});
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export default api;
