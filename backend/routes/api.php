@@ -3,11 +3,13 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BarController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\KitchenController;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Public\MenuController;
 use App\Http\Controllers\Api\Public\ReservationController as PublicReservationController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\ReservationController as AdminReservationController;
 use App\Http\Controllers\Api\TableController;
 use App\Http\Controllers\Api\UserController;
@@ -57,5 +59,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('tables', TableController::class);
         Route::apiResource('users', UserController::class);
         Route::apiResource('vouchers', VoucherController::class);
+
+        // Dashboard Analitik
+        Route::get('dashboard/summary', [DashboardController::class, 'summary']);
+        Route::get('dashboard/chart/sales', [DashboardController::class, 'chartSales']);
+        Route::get('dashboard/chart/products', [DashboardController::class, 'chartProducts']);
+        Route::get('dashboard/chart/payment', [DashboardController::class, 'chartPayment']);
+        Route::get('dashboard/chart/peak-hours', [DashboardController::class, 'chartPeakHours']);
+
+        // Export Excel
+        Route::get('reports/export', [ReportController::class, 'export']);
     });
 });
