@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import ProductPage from "./pages/admin/ProductPage";
+import POSPage from "./pages/pos/POSPage";
 import AdminLayout from "./components/layout/AdminLayout"; // Import Layout
 import DashboardPage from "./pages/admin/DashboardPage"; // Import Dashboard
 
@@ -32,6 +33,14 @@ function App() {
             <Route path="/admin/tables" element={<div>Halaman Meja</div>} />
           </Route>
         </Route>
+      </Route>
+
+      {/* Rute Kasir (Tidak pakai AdminLayout karena full screen) */}
+      <Route
+        element={<ProtectedRoute allowedRoles={["kasir", "admin", "owner"]} />}
+      >
+        {/* Ganti placeholder dengan komponen POSPage */}
+        <Route path="/pos" element={<POSPage />} />
       </Route>
 
       {/* Rute Kasir, Kitchen, Bar (Tidak pakai AdminLayout, punya UI sendiri) */}

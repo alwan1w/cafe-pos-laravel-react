@@ -27,7 +27,7 @@ export default function ProductModal({ isOpen, onClose, onSuccess, editData }) {
       try {
         const res = await api.get("/categories");
         setCategories(res.data.data);
-      } catch {
+      } catch (error) {
         toast.error("Gagal memuat kategori");
       }
     };
